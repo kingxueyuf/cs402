@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Geo Genie</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<!-- CSS -->
+	<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet">
+	<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="css/geo.css" rel="stylesheet">
+	<script	src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script src="js/geo.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div class="container">
+			<div class="page-header">
+				<div id="check"><label class="checkbox"> <input type="checkbox" value="" name="weather" id="weatherCheck"/>Include weather</label></div>			
+				<h1>Geocoding Service</h1>
+			</div>
+			<form class="form-inline">
+				<input type="text" class="input-small" placeholder="latitude"
+					id="latField" /> <input type="text" class="input-small"
+					placeholder="longitude" id="lonField" /> <input type="text"
+					class="input" placeholder="Endpoint" id="endpointField" />
+				<button class="btn" type="button" id="goButton">Get Em</button>
+
+			</form>
+			<div id="hitList"></div>
+		</div>
+		<div id="push"></div>
+	</div>
+
+	<div id="footer">
+		<div class="container">
+			<p class="muted credit" id="footerp">I love web apps.</p>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$("#goButton").click(makeQuery);
+			setFooter();
+		})
+	</script>
+</body>
+</html>

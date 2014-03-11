@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Robin shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!-- Bootstrap -->
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+
+<!-- upload File-->
+<script
+	src="http://blueimp.github.io/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script
+	src="http://blueimp.github.io/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+<script
+	src="http://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$
+								.ajax({
+									type : "GET",
+									url : "/shop_assistant2/productmanager/getallproduct",
+									success : function(data) {
+										$
+												.each(
+														data,
+														function(i, item) {
+															var oneLine = "<tr>";
+															oneLine += "<td>"
+																	+ item['productId']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<img class=\"img\" alt=\"225x225\" width=225px  height=225px;\" src=\"/shop_assistant2/resources"
+																	+ item['pictureUrl']
+																	+ "\"</img>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<font color=\"blue\">"
+																	+ item['name']
+																	+ "</font>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['normalPrice']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<font color=\"red\"><b>"
+																	+ item['memberPrice']
+																	+ "</b></font>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['category']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['location']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['amount']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['brand']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ ""
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<a class=\"btn btn-danger delete-user\" href="
+																	+ "/shop_assistant2/productmanager/deleteproduct?id="
+																	+ item['productId']
+																	+ ">delete</a>"
+																	+ "</td>";
+															oneLine += "</tr>";
+															$("#tbody").append(
+																	oneLine);
+														});
+									},
+									dataType : "json",
+								});
+
+						$("#save_sub")
+								.live(
+										'click',
+										function() {
+											var p_name = $("#p_name").attr(
+													"value");
+											var price = $("#price").attr(
+													"value");
+											var vip_price = $("#vip_price")
+													.attr("value");
+											var location = $("#location").find(
+													"option:selected").text();
+											var amount = $("#amount").attr(
+													"value");
+											var brand = $("#brand").attr(
+													"value");
+											var category = $("#category").attr(
+													"value");
+											var detail = $("#detail").attr(
+													"value");
+											var other = $("#other").attr(
+													"value");
+											var picture = $("#picture").attr(
+													"value");
+											var action = "/shop_assistant2/productmanager/addproduct?"
+													+ "p_name="
+													+ p_name
+													+ "&price="
+													+ price
+													+ "&vip_price="
+													+ vip_price
+													+ "&location="
+													+ location
+													+ "&amount="
+													+ amount
+													+ "&brand="
+													+ brand
+													+ "&category="
+													+ category
+													+ "&detail="
+													+ detail
+													+ "&other=" + other;
+											$("#picform").get(0).setAttribute(
+													'action', action);
+											$("#picform").submit();
+										});
+					})
+</script>
+
+<style type="text/css">
+
+/* model */
+input {
+	width: 100%;
+}
+
+/*  table css */
+table {
+	border-collapse: separate;
+	border-spacing: 0 5px;
+}
+
+thead th {
+	background-color: #006DCC;
+	color: white;
+}
+
+tbody td {
+	/*    background-color: #EEEEEE;*/
+	
+}
+
+tr td:first-child,tr th:first-child {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+tr td:last-child,tr th:last-child {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+</style>
+</head>
+
+<body youdao="bind">
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Product Management</a>
+			<ul class="nav pull-right">
+				<li><a href="#">welcome admin</a></li>
+				<li><a href="/shop_assistant2/userAuthentication/login">logout</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="user-toolbar nav">
+		<span>&nbsp;</span>
+		<button class="btn btn-primary create-user" data-toggle="modal"
+			data-target="#myModal">Add a new product</button>
+		<span>&nbsp;</span>
+		<button class="btn btn-warning delete-user">Change a product</button>
+		<span>&nbsp;</span>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal hide fade" id="myModal" tabindex="-1" role="dialog">
+		<div class="modal-header">
+			<h3 id="myModalLabel">Add Product</h3>
+		</div>
+
+		<div class="modal-body">
+
+			<div class="row-input">
+				Name<input id="p_name" name="p_name" class="input" type="text">
+			</div>
+			<div class="row-input">
+				Price<input id="price" name="price" class="input" type="text">
+			</div>
+			<div class="row-input">
+				VIP Price<input id="vip_price" name="vip_price" class="input"
+					type="text">
+			</div>
+			<div class="row-input">
+				Location <select id="location">
+					<option value="1" selected="selected">1st floor</option>
+					<option value="2">2nd floor</option>
+					<option value="3">3th floor</option>
+					<option value="4">4th floor</option>
+					<option value="5">5th floor</option>
+				</select>
+			</div>
+			<div class="row-input">
+				Amount<input id="amount" name="amount" class="input" type="text">
+			</div>
+
+			<div class="row-input">
+				Brand<input id="brand" name="brand" class="input" type="text">
+			</div>
+			<div class="row-input">
+				Category <select id="category">
+					<option value="fashion" selected="selected">fashion</option>
+					<option value="electronic">electronic</option>
+					<option value="sporting goods">sporting goods</option>
+					<option value="toys hobbies">toys hobbies</option>
+					<option value="home garden">home garden</option>
+					<option value="music">music</option>
+					<option value="motors">motors</option>
+					<option value="entertainment">entertainment</option>
+					<option value="business industrial">business industrial</option>
+					<option value="gift cards coupons">gift cards coupons</option>
+					<option value="tickets experiences">tickets experiences</option>
+					<option value="travel">travel</option>
+					<option value="video games consoles">video games consoles</option>
+				</select>
+			</div>
+
+			<div class="row-input">
+				Detail<input id="detail" name="detail" class="input" type="text">
+			</div>
+			<div class="row-input">
+				Other<input id="other" name="other" class="input" type="text">
+			</div>
+			<form id="picform" method="post"
+				action="/shop_assistant2/productmanager/addproduct"
+				enctype="multipart/form-data">
+				<div class="row-input">
+					Choose picture<input name="picture" type="file">
+				</div>
+
+				<button id="close_sub" class="btn" data-dismiss="modal">close</button>
+				<button id="save_sub" class="btn btn-primary" data-dismiss="modal">save</button>
+			</form>
+		</div>
+	</div>
+
+	<div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Picture</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Price(VIP)</th>
+					<th>Category</th>
+					<th>Location</th>
+					<th>Amount</th>
+					<th>Brand</th>
+					<th>Details</th>
+					<th>Operation</th>
+				</tr>
+			</thead>
+			<tbody id='tbody'>
+
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+# Module geo_genie
+# RPC service class, partial path of RPC policy file
+com.robin.geo.client.GreetingService, 7C000250994EB2904A8F0D0E925D9B58.gwt.rpc

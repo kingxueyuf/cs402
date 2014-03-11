@@ -1,0 +1,2 @@
+serviceClass: com.robin.geo.client.GreetingService
+path: 7C000250994EB2904A8F0D0E925D9B58.gwt.rpc

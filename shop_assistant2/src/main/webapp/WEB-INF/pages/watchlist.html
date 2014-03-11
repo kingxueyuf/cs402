@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>R & A shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="../resources/jquery-cookie/jc/jquery.cookie.js"></script>
+<!-- Bootstrap -->
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://www.see-source.com/bootstrap/js/bootstrap-affix.js"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$.ajax({
+							type : "GET",
+							url : "/shop_assistant2/user/current",
+							data : "",
+							success : function(data) {
+								var username = data;
+								if (username != null && username != ""
+										&& username != "null") {
+									$("#welcome")
+											.append(" Welcome " + username);
+								}
+							},
+							dataType : "text",
+						});
+
+						$("#tbody").empty();
+						value = $(this).attr('id');
+						var query = "category=" + value;
+						$
+								.ajax({
+									type : "POST",
+									url : "/shop_assistant2/product/viewwatchlist",
+									data : query,
+									success : function(data) {
+										$
+												.each(
+														data,
+														function(i, item) {
+															var oneLine = "<tr>";
+															oneLine += "<td>"
+																	+ item['productId']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<img class=\"img\" alt=\"225x225\" width=225px  height=225px;\" src=\"/shop_assistant2/resources"
+																	+ item['pictureUrl']
+																	+ "\"</img>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<font color=\"blue\">"
+																	+ item['name']
+																	+ "</font>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['normalPrice']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ "<font color=\"red\"><b>"
+																	+ item['memberPrice']
+																	+ "</b></font>"
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['location']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['amount']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ item['brand']
+																	+ "</td>";
+															oneLine += "<td>"
+																	+ ""
+																	+ "</td>";
+
+															if (item['bought'] == "true") {
+																oneLine += "<td>"
+																		+ "<button id=\"deletewatchlist\" class=\"btn btn-danger delete-user\" name="
+																					+ item['productId']
+																					+ ">drop</a>"
+																		+ "</td>";
+															} else {
+																oneLine += "<td>"
+																		+ "<button id=\"addwatchlist\" class=\"btn btn-success delete-user\" name="
+																				+ item['productId']
+																				+ ">add</button>"
+																		+ "</td>";
+															}
+
+															oneLine += "</tr>";
+															$("#tbody").append(
+																	oneLine);
+														});
+									},
+									dataType : "json",
+								});
+
+						$("button#deletewatchlist")
+								.live(
+										'click',
+										function() {
+											var query = "pid="
+													+ $(this).attr("name");
+											$
+													.ajax({
+														type : "POST",
+														url : "/shop_assistant2/product/deletewatchlist",
+														data : query,
+														success : function(data) {
+															location.href = "/shop_assistant2/product/jviewwatchlist";
+														},
+														dataType : "text",
+													});
+										});
+
+					});
+</script>
+
+
+<style type="text/css">
+
+/* body css */
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+	position: relative;
+}
+
+/*  table css */
+table {
+	border-collapse: separate;
+	border-spacing: 0 5px;
+	/*background-color: #EEEEEE;*/
+}
+
+thead th {
+	background-color: #006DCC;
+	color: white;
+}
+
+tbody td {
+	/*background-color: #EEEEEE;*/
+	
+}
+
+tr td:first-child,tr th:first-child {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+
+tr td:last-child,tr th:last-child {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+.nav .btn {
+	margin-left: 10px;
+}
+
+.welcome-msg {
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.modal {
+	margin-top: 150px;
+}
+
+.modal-dialog {
+	width: 100%;
+}
+
+.modal-dialog .row {
+	margin-left: 10px;
+	width: 100%;
+}
+</style>
+</head>
+<body youdao="bind">
+	<!-- // <script src="http://code.jquery.com/jquery.js"></script> -->
+	<!--  // <script src="js/bootstrap.min.js"></script>
+
+    // <script src="./Bootstrap, from Twitter_files/jquery.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-transition.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-alert.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-modal.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-dropdown.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-scrollspy.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-tab.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-tooltip.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-popover.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-button.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-collapse.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-carousel.js"></script>
+    // <script src="./Bootstrap, from Twitter_files/bootstrap-typeahead.js"></script> -->
+
+	<!-- nav-->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<!--           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button> -->
+				<a class="brand" href="#">Robin-yufan shop</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="../home">Home</a></li>
+						<li ><a href="../product">Shop</a></li>
+						<li><a
+							href="http://robin-xueyufan.appspot.com/robin-xue.html">Contact</a></li>
+						<li class="active"><a href="#">watch list</a></li>
+					</ul>
+					<ul class="nav pull-right">
+
+						<li>
+							<div class="welcome-msg">
+								<span class="label label-success" id="welcome"></span>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- start of containner-->
+	<div id="content" class="container-fluid">
+		<div class="row-fluid">
+			<!--Body content-->
+			<div class="span10">
+				<!--start -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Picture</th>
+							<th>Name</th>
+							<th>Price</th>
+							<th>Price(VIP)</th>
+							<th>Location</th>
+							<th>Amount</th>
+							<th>Details</th>
+							<th>Other</th>
+							<th>Operation</th>
+						</tr>
+					</thead>
+					<tbody id='tbody'>
+
+					</tbody>
+				</table>
+				<!--end -->
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>
